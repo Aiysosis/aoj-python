@@ -8,13 +8,14 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "pytest (>=8.4.1,<9.0.0)"
 ]
 
 [tool.poetry]
 packages = [{include = "aoj", from = "src"}]
 
 [tool.poetry.scripts]
-test = "aoj:runTest"
+test = "tests:runTests"
 
 
 [build-system]
