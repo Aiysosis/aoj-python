@@ -1,6 +1,6 @@
 # AOJ-python
 
-A real-time recording of joa practices. Written in python, and implemented an oj-style unit test tool
+A real-time recording of aoj practices. Written in python, and implemented an oj-style unit test tool
 
 ## Install Poetry
 
