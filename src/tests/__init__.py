@@ -74,6 +74,7 @@ def run_tests():
         print("No question matches input id")
         return
     else:
+        print(f"Testing algorithm {name}")
         query_str = f"--query={name}"
 
-    pytest.main(["-vv", query_str, __file__])
+    pytest.main(["-vvl", query_str, __file__])
