@@ -15,7 +15,8 @@ dependencies = [
 packages = [{include = "aoj", from = "src"}]
 
 [tool.poetry.scripts]
-test = "tests:runTests"
+test = "tests:run_tests"
+create = "aoj:new_algorithm"
 
 
 [build-system]

@@ -1,9 +1,12 @@
 from io import StringIO
+import logging
+from os import listdir, path
 import pytest
 import importlib
 from contextlib import redirect_stdout
+import re
 
-def load_cases():
+def load_cases(q_name: str):
     cases = []
     input_lines = []
     output_lines = []
@@ -29,19 +32,19 @@ def load_cases():
             case _:
                 output_lines.append(line)
 
-    with open('src/aoj/q001_maximum_profit/case.txt', 'r') as file:
+    with open(f'src/aoj/{q_name}/case.txt', 'r') as file:
         for line in map(lambda x: x.strip(), file):
             read_line(line)
         add_case()
     return cases
 
 def pytest_generate_tests(metafunc):
-    query = int(metafunc.config.getoption("--query"))
+    query = metafunc.config.getoption("--query")
     if "algorithm" in metafunc.fixturenames:
-        func = importlib.import_module('aoj.q001_maximum_profit').main
+        func = importlib.import_module(f'aoj.{query}').main
         metafunc.parametrize("algorithm", [func])
     if "case" in metafunc.fixturenames:
-        metafunc.parametrize("case", load_cases())
+        metafunc.parametrize("case", load_cases(query))
 
 def test_algorithm(case, algorithm, monkeypatch):
     input, expected_output = case
@@ -50,16 +53,27 @@ def test_algorithm(case, algorithm, monkeypatch):
     try:
         with redirect_stdout(tmp_out):
             algorithm()
-    except Exception:
+    except Exception as e:
         pytest.fail("Error when executing algorithm")
+        logging.exception(e)
     user_output = tmp_out.getvalue().strip()
     assert expected_output == user_output.strip()
 
+def search_algorithm(query: str):
+    file_list = listdir('src/aoj')
+    for file in file_list:
+        if path.isdir(f'src/aoj/{file}') and re.match(r'^q[0-9]{3}', file):
+            if query in file:
+                return file
 
+def run_tests():
+    print("Input question id:")
+    query_str = input()
+    name = search_algorithm(query_str)
+    if name == None:
+        print("No question matches input id")
+        return
+    else:
+        query_str = f"--query={name}"
 
-def runTests():
-    print("Input question id(leave empty to test all algorithms):")
-    user_input = input()
-    is_all = user_input.strip() == ""
-    query_str = "-all" if is_all else f"--query={user_input}"
     pytest.main(["-vv", query_str, __file__])
