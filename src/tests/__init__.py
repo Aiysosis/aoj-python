@@ -6,6 +6,8 @@ import importlib
 from contextlib import redirect_stdout
 import re
 
+from utils.path import AOJ
+
 def load_cases(q_name: str):
     cases = []
     input_lines = []
@@ -32,7 +34,7 @@ def load_cases(q_name: str):
             case _:
                 output_lines.append(line)
 
-    with open(f'src/aoj/{q_name}/case.txt', 'r') as file:
+    with open(AOJ / q_name / 'case.txt', 'r') as file:
         for line in map(lambda x: x.strip(), file):
             read_line(line)
         add_case()
@@ -60,9 +62,9 @@ def test_algorithm(case, algorithm, monkeypatch):
     assert expected_output == user_output.strip()
 
 def search_algorithm(query: str):
-    file_list = listdir('src/aoj')
+    file_list = listdir(AOJ)
     for file in file_list:
-        if path.isdir(f'src/aoj/{file}') and re.match(r'^q[0-9]{3}', file):
+        if path.isdir(AOJ / file) and re.match(r'^q[0-9]{3}', file):
             if query in file:
                 return file
 
