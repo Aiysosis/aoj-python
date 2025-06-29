@@ -1,6 +1,6 @@
 def main():
     n = int(input())
-    arr = list(map(int, input().split(' ')))
+    arr = list(map(int, input().split(" ")))
     flag = True
     count = 0
     pos = 0
@@ -12,5 +12,5 @@ def main():
                 flag = True
                 count += 1
         pos += 1
-    print(' '.join(map(str, arr)))
+    print(" ".join(map(str, arr)))
     print(count)
