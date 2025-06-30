@@ -18,7 +18,7 @@ def main():
         arr.append(int(input()))
 
     g = 1
-    # With g(i) = 3 * g(i - 1) + 1, Shell sort can achieve a time complexity of O(n^{1.25})
+    # With g(i) = 3 * g(i - 1) + 1, Shell sort can achieve an average time complexity of O(n^{1.25}), and O(n^{1.5}) in the worst case
     g_arr = []
     while g <= n:
         g_arr.insert(0, g)
