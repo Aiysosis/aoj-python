@@ -16,7 +16,7 @@ def load_cases(q_name: str):
     is_input = True
 
     def add_case():
-        new_case = ("\n".join(input_lines), "\n".join(output_lines))
+        new_case = ("".join(input_lines), "".join(output_lines))
         cases.append(new_case)
         input_lines.clear()
         output_lines.clear()
@@ -24,11 +24,11 @@ def load_cases(q_name: str):
     def read_line(line: str):
         nonlocal is_input
         match line:
-            case "<<":
+            case "<<\n":
                 if not is_input:
                     add_case()
                 is_input = True
-            case ">>":
+            case ">>\n":
                 is_input = False
             case _ if is_input:
                 input_lines.append(line)
@@ -36,7 +36,7 @@ def load_cases(q_name: str):
                 output_lines.append(line)
 
     with open(AOJ / q_name / "case.txt", "r") as file:
-        for line in map(lambda x: x.strip(), file):
+        for line in file:
             read_line(line)
         add_case()
     return cases
@@ -62,7 +62,7 @@ def test_algorithm(case, algorithm, monkeypatch):
         pytest.fail("Error when executing algorithm")
         logging.exception(e)
     user_output = tmp_out.getvalue().strip()
-    assert expected_output == user_output.strip()
+    assert expected_output.strip() == user_output.strip()
 
 
 def search_algorithm(query: str):
